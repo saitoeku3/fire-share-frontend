@@ -16,11 +16,16 @@ interface Action {
   }
 }
 
-export const uploadFile = (file: any) => (dispatch: Dispatch<Action>) =>
-  axios.post<{ url: string }>('/api/upload', { file }).then(res => {
-    dispatch({ type: 'setUrl', payload: { url: res.data.url } })
-    return res
-  })
+export const uploadFile = (file: FormData) => async (dispatch: Dispatch<Action>) => {
+  const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+  try {
+    // TODO: show url insted of file name
+    const { data } = await axios.post<{ name: string }>('/api/upload', file, config)
+    dispatch({ type: 'setUrl', payload: { url: data.name } })
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {

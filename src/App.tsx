@@ -1,16 +1,21 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { RootContext, uploadFile } from './context'
 
 const App = () => {
   const { state, dispatch } = useContext(RootContext)
-  const handleClick = () => {
-    uploadFile('')(dispatch)
+  const [file, setFile] = useState<FormData>(null as any)
+
+  const changeFile = (event: any) => {
+    const inputFile = event.target.files[0]
+    const formData = new FormData()
+    formData.append('file', inputFile)
+    setFile(formData)
   }
 
   return (
     <>
-      <input type="file" />
-      <button onClick={handleClick}>send</button>
+      <input type="file" onChange={changeFile} />
+      <button onClick={() => uploadFile(file)(dispatch)}>send</button>
       <p>url: {state.url}</p>
     </>
   )

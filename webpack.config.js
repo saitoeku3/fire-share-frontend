@@ -32,5 +32,13 @@ module.exports = {
       template: path.join(__dirname, 'src/index.html'),
       filename: 'index.html'
     })
-  ]
+  ],
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' }
+      }
+    }
+  }
 }
