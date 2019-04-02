@@ -19,9 +19,8 @@ interface Action {
 export const uploadFile = (file: FormData) => async (dispatch: Dispatch<Action>) => {
   const config = { headers: { 'Content-Type': 'multipart/form-data' } }
   try {
-    // TODO: show url insted of file name
-    const { data } = await axios.post<{ name: string }>('/api/upload', file, config)
-    dispatch({ type: 'setUrl', payload: { url: data.name } })
+    const { data } = await axios.post<{ url: string }>('/api/upload', file, config)
+    dispatch({ type: 'setUrl', payload: { url: data.url } })
   } catch (e) {
     console.error(e)
   }

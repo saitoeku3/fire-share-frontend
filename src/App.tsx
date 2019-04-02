@@ -6,17 +6,19 @@ const App = () => {
   const [file, setFile] = useState<FormData>(null as any)
 
   const changeFile = (event: any) => {
-    const inputFile = event.target.files[0]
+    const [inputFile] = event.target.files
     const formData = new FormData()
     formData.append('file', inputFile)
     setFile(formData)
   }
 
+  const fileLink = state.url ? <a href={state.url}>{state.url}</a> : ''
+
   return (
     <>
       <input type="file" onChange={changeFile} />
       <button onClick={() => uploadFile(file)(dispatch)}>send</button>
-      <p>url: {state.url}</p>
+      <div>{fileLink}</div>
     </>
   )
 }
