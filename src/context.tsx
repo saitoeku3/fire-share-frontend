@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, useReducer } from 'react'
+import React, { createContext, useReducer, Dispatch, FC } from 'react'
 import axios from 'axios'
 
 interface State {
@@ -39,7 +39,7 @@ const reducer = (state: State = initialState, action: Action): State => {
 
 export const RootContext = createContext<{ state: State; dispatch: Dispatch<Action> }>(null as any)
 
-const Provider = ({ children }: { children: any }) => {
+const Provider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   return <RootContext.Provider value={{ state, dispatch }}>{children}</RootContext.Provider>
 }
